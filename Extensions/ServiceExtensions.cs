@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using AutoMapper;
+using DAF.AirplaneTrafficData.Extensions.Interfaces;
 using DAF.AirplaneTrafficData.HelperClasses;
 using DAF.AirplaneTrafficData.Repositories;
 using DAF.AirplaneTrafficData.Repositories.Interfaces;
@@ -41,6 +42,7 @@ namespace DAF.AirplaneTrafficData.Extensions
 
             services.AddScoped<IAirportService, AirportService>();
             services.AddScoped<IAircraftService, AircraftService>();
+            services.AddScoped<IHttpClientFactoryExtension, HttpClientFactoryExtension>();
 
             services.AddTransient<IAirportRepository, AirportRepository>();
             services.AddTransient<IAircraftRepository, AircraftRepository>();
@@ -89,19 +91,9 @@ namespace DAF.AirplaneTrafficData.Extensions
                         new OpenApiInfo
                         { Title = "DAF - Airplane API", Description = "DAF - Airplane Swagger API", Version = "v1" });
                     // Set the comments path for the Swagger JSON and UI.
-                    //var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                    //var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                    //c.IncludeXmlComments(xmlPath);
-
-                    var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-                    //var commentsFileName = Assembly.GetExecutingAssembly().GetName().Name + ".XML";
-                    var commentsFileName = "Comments" + ".XML";
-                    if (baseDirectory != null)
-                    {
-                        var commentsFile = Path.Combine(baseDirectory, commentsFileName);
-
-                        c.IncludeXmlComments(commentsFile);
-                    }
+                    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                    c.IncludeXmlComments(xmlPath);
                 });
 
 
@@ -119,7 +111,7 @@ namespace DAF.AirplaneTrafficData.Extensions
             var optionEndPoints = serviceProvider.GetRequiredService<IOptions<EndPoints>>().Value;
             services.AddCors(options =>
             {
-                options.AddPolicy("Policy",
+                options.AddPolicy("DafAirplane",
                     builder =>
                     {
                         builder.WithOrigins(configuration["AllowedHosts"])
@@ -137,12 +129,13 @@ namespace DAF.AirplaneTrafficData.Extensions
         public static IServiceCollection AddCustomHttpClient(this IServiceCollection services)
         {
             var serviceProvider = services.BuildServiceProvider();
-            var optionEndPoints = serviceProvider.GetRequiredService<IOptions<EndPoints>>().Value;
-            //#pragma warning disable CS0618 // Type or member is obsolete
+
+            services.AddHttpClient<IHttpClientFactoryExtension, HttpClientFactoryExtension>();
+
             var loggerFactory =
                 LoggerFactory.Create(builder =>
-                    builder.AddConsole()); // new LoggerFactory().AddConsole((_, __) => true);
-            //#pragma warning restore CS0618 // Type or member is obsolete
+                    builder.AddConsole()); 
+
             ILogger logger = loggerFactory.CreateLogger<Program>();
 
             return services;

@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DAF.AirplaneTrafficData.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/aircraft")]
     [ApiController]
-    public class AircraftController : ControllerBase
+    public class AircraftController : BaseController
     {
         private readonly IAircraftService _aircraftService;
 

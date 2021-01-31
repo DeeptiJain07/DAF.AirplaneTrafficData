@@ -4,6 +4,24 @@
         <name>DAF.AirplaneTrafficData</name>
     </assembly>
     <members>
+        <member name="M:DAF.AirplaneTrafficData.Controllers.AirportController.GetAircraftListByAirport(System.String,System.DateTime,System.DateTime)">
+            <summary>
+                Gets the list of aircrafts by airport
+            </summary>
+            <param name="airportICAO"></param>
+            <param name="startTime"></param>
+            <param name="endTime"></param>
+            <returns></returns>
+        </member>
+        <member name="M:DAF.AirplaneTrafficData.Controllers.AirportController.SaveFlightDetailsByAirport(System.String,System.DateTime,System.DateTime)">
+            <summary>
+            Save flight details by airport
+            </summary>
+            <param name="airportICAO"></param>
+            <param name="startTime"></param>
+            <param name="endTime"></param>
+            <returns></returns>
+        </member>
         <member name="M:DAF.AirplaneTrafficData.Extensions.HttpClientFactoryExtension.CreateEndpointTask``1(DAF.AirplaneTrafficData.HelperClasses.HttpEndpointTypes)">
             <summary>
                 CreateEndpointTask
@@ -53,6 +71,33 @@
                 Configure unit of work
             </summary>
             <param name="services"></param>
+        </member>
+        <member name="M:DAF.AirplaneTrafficData.HelperClasses.EnumExtensions.GetDescription(System.Enum)">
+            <summary>
+                Get Description
+            </summary>
+            <returns>
+                string
+            </returns>
+            <param name="genericEnum">TypeDetail</param>
+        </member>
+        <member name="M:DAF.AirplaneTrafficData.Services.AirportService.GetAircraftListByAirport(System.String,System.DateTime,System.DateTime)">
+            <summary>
+            gets data of the arriving and departing aircrafts on given airport
+            </summary>
+            <param name="airportICAO"></param>
+            <param name="startTime"></param>
+            <param name="endTime"></param>
+            <returns></returns>
+        </member>
+        <member name="M:DAF.AirplaneTrafficData.Services.AirportService.SaveFlightDetailsByAirport(System.String,System.DateTime,System.DateTime)">
+            <summary>
+            Collects data of the arriving and departing aircrafts on given airport from Open Sky and save in database
+            </summary>
+            <param name="airportICAO"></param>
+            <param name="startTime"></param>
+            <param name="endTime"></param>
+            <returns></returns>
         </member>
     </members>
 </doc>

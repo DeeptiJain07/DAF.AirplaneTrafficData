@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using DAF.AirplaneTrafficData.Extensions.Interfaces;
 using DAF.AirplaneTrafficData.HelperClasses;
-using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
 namespace DAF.AirplaneTrafficData.Extensions
@@ -13,12 +12,10 @@ namespace DAF.AirplaneTrafficData.Extensions
     public class HttpClientFactoryExtension: IHttpClientFactoryExtension
     {
         private readonly IHttpClientFactory _httpClientFactory;
-        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public HttpClientFactoryExtension(IHttpClientFactory httpClientFactory, IHttpContextAccessor httpContextAccessor)
+        public HttpClientFactoryExtension(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
-            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<T> GetResponseFromEndpointTask<T>(HttpEndpointTypes httpEndpointTypes)
